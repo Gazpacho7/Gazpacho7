@@ -84,10 +84,16 @@ def portfolio_snapshot(portfolio: dict) -> dict:
     for h in holdings:
         series = closes[h["ticker"]].dropna() if h["ticker"] in closes else pd.Series(dtype=float)
         if series.empty:
-            missing.append(h["ticker"])
-            continue
-        price = float(series.iloc[-1])
-        prev = float(series.iloc[-2]) if len(series) > 1 else price
+            # Strumenti non quotati su Yahoo (es. fondi comuni): prezzo inserito a mano.
+            if not h.get("manual_price"):
+                missing.append(h["ticker"])
+                continue
+            price = prev = float(h["manual_price"])
+            price_date = f"{h.get('manual_price_date', 'data ignota')} (prezzo manuale)"
+        else:
+            price = float(series.iloc[-1])
+            prev = float(series.iloc[-2]) if len(series) > 1 else price
+            price_date = str(series.index[-1].date())
         rate = rates[h["currency"]]
         value = price * h["quantity"] * rate
         row = {
@@ -96,7 +102,7 @@ def portfolio_snapshot(portfolio: dict) -> dict:
             "quantity": h["quantity"],
             "currency": h["currency"],
             "price": round(price, 4),
-            "price_date": str(series.index[-1].date()),
+            "price_date": price_date,
             "day_change_pct": round((price / prev - 1) * 100, 2),
             "value_base": round(value, 2),
             "target_weight_pct": h["target_weight"],

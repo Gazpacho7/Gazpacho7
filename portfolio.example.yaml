@@ -6,6 +6,8 @@
 # currency: valuta in cui il ticker è quotato (default: base_currency)
 # avg_cost: prezzo medio di carico, nella valuta del ticker (facoltativo)
 # target_weight: peso obiettivo in % del portafoglio totale (facoltativo)
+# manual_price / manual_price_date: prezzo inserito a mano, usato solo se Yahoo
+#   non ha dati per il ticker (es. fondi comuni non quotati)
 
 base_currency: EUR
 cash: 2500

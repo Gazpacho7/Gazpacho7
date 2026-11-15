@@ -14,6 +14,7 @@ holdings:
   - {ticker: AAA, quantity: 10, avg_cost: 80, target_weight: 50}
   - {ticker: BBB, quantity: 5, avg_cost: 100, currency: USD, target_weight: 40}
   - {ticker: GONE, quantity: 1}
+  - {ticker: FUND, quantity: 10, manual_price: 50, manual_price_date: "2026-01-01"}
 """
 
 PRICES = {"AAA": [90.0, 100.0], "BBB": [200.0, 200.0], "USDEUR=X": [0.5, 0.5]}
@@ -36,9 +37,11 @@ def test_snapshot_values_weights_and_fx(fake_market):
     by = {h["ticker"]: h for h in snap["holdings"]}
     assert by["AAA"]["value_base"] == 1000        # 10 * 100
     assert by["BBB"]["value_base"] == 500         # 5 * 200 USD * 0.5
-    assert snap["total_value"] == 2500            # + 1000 di liquidità
-    assert by["AAA"]["weight_pct"] == 40
-    assert by["AAA"]["drift_pct"] == -10
+    assert by["FUND"]["value_base"] == 500        # prezzo manuale
+    assert "manuale" in by["FUND"]["price_date"]
+    assert snap["total_value"] == 3000            # + 1000 di liquidità
+    assert by["AAA"]["weight_pct"] == pytest.approx(33.33)
+    assert by["AAA"]["drift_pct"] == pytest.approx(-16.67)
     assert by["AAA"]["pnl_pct"] == 25
     assert by["AAA"]["day_change_pct"] == pytest.approx(11.11)
     assert by["BBB"]["pnl_base"] == 250           # (200-100) * 5 * 0.5
@@ -49,9 +52,9 @@ def test_rebalance_trades(fake_market):
     snap = market.portfolio_snapshot(market.load_portfolio(fake_market))
     plan = market.rebalance_trades(snap, new_cash=500)
     by = {t["ticker"]: t for t in plan["trades"]}
-    assert plan["total_value_after_new_cash"] == 3000
-    assert by["AAA"] == {**by["AAA"], "action": "COMPRA", "amount_base": 500, "approx_units": 5}
-    assert by["BBB"]["action"] == "COMPRA" and by["BBB"]["amount_base"] == 700
+    assert plan["total_value_after_new_cash"] == 3500
+    assert by["AAA"] == {**by["AAA"], "action": "COMPRA", "amount_base": 750, "approx_units": 7.5}
+    assert by["BBB"]["action"] == "COMPRA" and by["BBB"]["amount_base"] == 900
 
 
 def test_price_stats():
@@ -77,7 +80,7 @@ def test_correlation():
 def test_toolbox_dispatch_and_journal(fake_market, tmp_path):
     box = Toolbox(fake_market, tmp_path / "memory" / "journal.md")
     out, err = box.execute("get_portfolio", {})
-    assert not err and json.loads(out)["total_value"] == 2500
+    assert not err and json.loads(out)["total_value"] == 3000
     assert "prima analisi" in box.execute("read_journal", {})[0]
     assert box.execute("append_journal", {"note": "Mantieni AAA"}) == ("Nota salvata nel diario.", False)
     assert "Mantieni AAA" in box.execute("read_journal", {})[0]
