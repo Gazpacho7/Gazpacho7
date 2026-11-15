@@ -1,0 +1,45 @@
+# Il tuo portafoglio. Copia questo file in portfolio.yaml e sostituisci i dati
+# di esempio con le tue posizioni reali.
+#
+# ticker: simbolo Yahoo Finance (finance.yahoo.com). Suffissi delle borse:
+#   .MI Milano · .DE Xetra · .AS Amsterdam · .PA Parigi · .L Londra · nessuno per USA
+# currency: valuta in cui il ticker è quotato (default: base_currency)
+# avg_cost: prezzo medio di carico, nella valuta del ticker (facoltativo)
+# target_weight: peso obiettivo in % del portafoglio totale (facoltativo)
+
+base_currency: EUR
+cash: 2500
+
+profile:
+  orizzonte_anni: 15
+  tolleranza_rischio: medio-alta   # bassa | media | medio-alta | alta
+  versamento_mensile: 500
+  note: >
+    Accumulo di lungo periodo. Nucleo in ETF globali a basso costo,
+    una parte minore in singole azioni.
+
+holdings:
+  - ticker: VWCE.DE
+    name: Vanguard FTSE All-World Acc
+    quantity: 120
+    avg_cost: 98.50
+    target_weight: 60
+
+  - ticker: EUNA.DE
+    name: iShares Core Global Aggregate Bond EUR Hedged
+    quantity: 400
+    avg_cost: 4.60
+    target_weight: 15
+
+  - ticker: AAPL
+    name: Apple
+    currency: USD
+    quantity: 15
+    avg_cost: 165.00
+    target_weight: 10
+
+  - ticker: ENI.MI
+    name: Eni
+    quantity: 200
+    avg_cost: 13.20
+    target_weight: 5
