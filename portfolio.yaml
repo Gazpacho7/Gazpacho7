@@ -1,0 +1,85 @@
+# Posizioni al 13/11/2026. Aggiorna quantità e prezzi di carico dopo ogni operazione.
+
+base_currency: EUR
+cash: 0            # liquidità disponibile da investire: da compilare
+
+profile:
+  orizzonte_anni: 3
+  tolleranza_rischio: medio-alta
+  versamento_mensile:      # da compilare se fai versamenti periodici
+
+holdings:
+  # --- Fondi ---
+  - ticker: 0P00000U4R.F          # fondo comune: se Yahoo non lo trova vale manual_price
+    name: Eurizon Azioni Internazionali (IT0001080446)
+    quantity: 537.837
+    avg_cost: 26.724
+    manual_price: 35.881          # da aggiornare a mano ogni tanto
+    manual_price_date: "2026-11-11"
+
+  # --- Azioni ---
+  - ticker: AMZN
+    name: Amazon
+    currency: USD
+    quantity: 25
+    avg_cost: 185.54548
+
+  - ticker: NVDA
+    name: Nvidia
+    currency: USD
+    quantity: 12
+    avg_cost: 201.918833
+
+  - ticker: SPCX
+    name: SpaceX (Space Exploration Technologies)
+    currency: USD
+    quantity: 13
+    avg_cost: 145.399615
+
+  - ticker: GOOGL
+    name: Alphabet classe A
+    currency: USD
+    quantity: 4
+    avg_cost: 288.953
+
+  - ticker: MSFT
+    name: Microsoft
+    currency: USD
+    quantity: 2
+    avg_cost: 535.9745
+
+  - ticker: AMP.MI
+    name: Amplifon
+    quantity: 54
+    avg_cost: 22.29574
+
+  - ticker: ISP.MI
+    name: Intesa Sanpaolo
+    quantity: 88
+    avg_cost: 6.046477
+
+  - ticker: DNR.MI
+    name: Industrie De Nora
+    quantity: 60
+    avg_cost: 18.831666
+
+  # --- ETF ---
+  - ticker: VWCE.MI
+    name: Vanguard FTSE All-World Acc (IE00BK5BQT80)
+    quantity: 39
+    avg_cost: 167.853076
+
+  - ticker: EQQQ.MI
+    name: Invesco Nasdaq-100 Dist (IE0032077012)
+    quantity: 2
+    avg_cost: 633.68
+
+  - ticker: QYLD.MI
+    name: Global X Nasdaq 100 Covered Call (IE00BM8R0J59)
+    quantity: 77
+    avg_cost: 14.904415
+
+  - ticker: GLDV.MI
+    name: SPDR S&P Global Dividend Aristocrats Dist (IE00B9CQXS71)
+    quantity: 30
+    avg_cost: 34.521666
